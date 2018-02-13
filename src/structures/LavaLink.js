@@ -21,14 +21,42 @@ class LavaLink extends EventEmitter {
 			password: options.password
 		});
 
+		node.on('error', console.error);
+		node.on('message', this.message.bind(this, node));
+
 		this.nodes.set(options.host, node);
 	}
 
 	removeNode(host) {
 		const node = this.nodes.get(host);
 		if (!node) return;
+		node.removeAllListeners();
 		this.nodes.delete(host);
 	}
+
+	/* eslint-disable consistent-return */
+	message(node, message) {
+		if (!message.op) return;
+
+		switch (message.op) {
+			case 'event': {
+				const player = this.players.get(message.guildId);
+				if (!player) return;
+
+				switch (message.type) {
+					case 'TrackEndEvent':
+						return player.end(message);
+					case 'TrackExceptionEvent':
+						return player.exception(message);
+					case 'TrackStuckEvent':
+						return player.stuck(message);
+					default:
+						return player.emit('warn', `Unexpected event type: ${message.type}`);
+				}
+			}
+		}
+	}
+	/* eslint-enable consistent-return */
 
 	join(data) {
 		if (this.client.connections) {
@@ -47,6 +75,7 @@ class LavaLink extends EventEmitter {
 		if (this.client.connections) {
 			this.client.connections.get(data.shard).send(data.op, data.d);
 		}
+		player.removeAllListeners();
 		this.players.delete(data.guild);
 	}
 

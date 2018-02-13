@@ -15,7 +15,7 @@ class LavaPlayer extends EventEmitter {
 	connect(data) {
 		this.node.send({
 			op: 'voiceUpdate',
-			guildId: data.guild,
+			guildId: this.guild,
 			sessionId: data.session,
 			event: data.event
 		});
@@ -56,6 +56,32 @@ class LavaPlayer extends EventEmitter {
 			guildId: this.guild,
 			volume
 		});
+	}
+
+	seek(position) {
+		this.node.send({
+			op: 'seek',
+			guildId: this.guild,
+			position
+		});
+	}
+
+	end(message) {
+		if (message.reason !== 'REPLACED') {
+			this.playing = false;
+			this.track = null;
+		}
+
+		this.emit('end', message);
+	}
+
+	exception(message) {
+		this.emit('error', message);
+	}
+
+	stuck(message) {
+		this.stop();
+		this.emit('end', message);
 	}
 }
 
