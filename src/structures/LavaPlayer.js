@@ -8,6 +8,7 @@ class LavaPlayer extends EventEmitter {
 		this.channel = options.channel;
 		this.ready = false;
 		this.playing = false;
+		this.paused = false;
 		this.track = null;
 		this.timestamp = Date.now();
 	}
@@ -43,11 +44,13 @@ class LavaPlayer extends EventEmitter {
 	}
 
 	pause(pause) {
+		if ((pause && this.paused) || (!pause && !this.paused)) return;
 		this.node.send({
 			op: 'pause',
 			guildId: this.guild,
 			pause
 		});
+		this.paused = Boolean(pause);
 	}
 
 	volume(volume) {
