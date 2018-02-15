@@ -3,7 +3,7 @@
 	"version": "0.1.0",
 	"description": ".",
 	"main": "src/index.js",
-	"repository": "https://github.com/0-0-2/voice",
+	"repository": "https://github.com/Project-002/voice",
 	"author": "iCrawl <icrawltogo@gmail.com>",
 	"license": "UNLICENSED",
 	"private": true,
