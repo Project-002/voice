@@ -56,11 +56,10 @@ class LavaLink extends EventEmitter {
 			}
 		}
 	}
-	/* eslint-enable consistent-return */
 
 	join(data) {
 		const player = this.players.get(data.d.guild_id);
-		if (!player) return;
+		if (player) return player;
 		if (this.client.connections) {
 			this.client.connections.get(data.shard).send(data.op, data.d);
 			this.spawnPlayer({
@@ -70,6 +69,7 @@ class LavaLink extends EventEmitter {
 			});
 		}
 	}
+	/* eslint-enable consistent-return */
 
 	leave(data) {
 		const player = this.players.get(data.d.guild_id);
