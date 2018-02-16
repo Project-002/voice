@@ -95,7 +95,7 @@ class LavaPlayer extends EventEmitter {
 	 * @memberof LavaPlayer
 	 */
 	connect(data) {
-		this.node.send({
+		this.node._send({
 			op: 'voiceUpdate',
 			guildId: this.guild,
 			sessionId: data.session,
@@ -116,7 +116,7 @@ class LavaPlayer extends EventEmitter {
 			guildId: this.guild,
 			track
 		}, options);
-		this.node.send(payload);
+		this.node._send(payload);
 		this.playing = true;
 		this.timestamp = Date.now();
 	}
@@ -126,12 +126,23 @@ class LavaPlayer extends EventEmitter {
 	 * @memberof LavaPlayer
 	 */
 	stop() {
-		this.node.send({
+		this.node._send({
 			op: 'stop',
 			guildId: this.guild
 		});
 		this.playing = false;
 		this.track = null;
+	}
+
+	/**
+	 * Destroys the current player.
+	 * @memberof LavaPlayer
+	*/
+	destroy() {
+		this.node._send({
+			op: 'destroy',
+			guildId: this.guild
+		});
 	}
 
 	/**
@@ -142,7 +153,7 @@ class LavaPlayer extends EventEmitter {
 	 */
 	pause(pause) {
 		if ((pause && this.paused) || (!pause && !this.paused)) return;
-		this.node.send({
+		this.node._send({
 			op: 'pause',
 			guildId: this.guild,
 			pause
@@ -156,7 +167,7 @@ class LavaPlayer extends EventEmitter {
 	 * @memberof LavaPlayer
 	 */
 	volume(volume) {
-		this.node.send({
+		this.node._send({
 			op: 'volume',
 			guildId: this.guild,
 			volume
@@ -169,7 +180,7 @@ class LavaPlayer extends EventEmitter {
 	 * @memberof LavaPlayer
 	 */
 	seek(position) {
-		this.node.send({
+		this.node._send({
 			op: 'seek',
 			guildId: this.guild,
 			position

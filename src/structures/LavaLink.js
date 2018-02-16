@@ -164,6 +164,7 @@ class LavaLink extends EventEmitter {
 			this.client.connections.get(data.shard).send(data.op, data.d);
 		}
 		player.removeAllListeners();
+		player.destroy();
 		this.players.delete(data.d.guild_id);
 	}
 

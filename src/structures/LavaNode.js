@@ -201,11 +201,12 @@ class LavaNode extends EventEmitter {
 
 	/**
 	 * Sends a packet to the WebSocket connection.
+	 * @private
 	 * @param {Object} data The data to send
 	 * @returns {void}
 	 * @memberof LavaNode
 	 */
-	send(data) {
+	_send(data) {
 		try {
 			var payload = JSON.stringify(data);
 		} catch (error) {
