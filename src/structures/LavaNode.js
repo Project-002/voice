@@ -27,18 +27,18 @@ class LavaNode extends EventEmitter {
 			}
 		});
 
-		this.ws.on('open', this.ready.bind(this));
-		this.ws.on('message', this.message.bind(this));
-		this.ws.on('close', this.close.bind(this));
-		this.ws.on('error', this.error.bind(this));
+		this.ws.on('open', this._ready.bind(this));
+		this.ws.on('message', this._message.bind(this));
+		this.ws.on('close', this._close.bind(this));
+		this.ws.on('error', this._error.bind(this));
 	}
 
-	ready() {
+	_ready() {
 		this.ready = true;
 		this.emit('ready');
 	}
 
-	message(message) {
+	_message(message) {
 		try {
 			var data = JSON.parse(message);
 		} catch (error) {
@@ -50,19 +50,19 @@ class LavaNode extends EventEmitter {
 		return this.emit('message', data);
 	}
 
-	error(error) {
+	_error(error) {
 		if (error.message.includes('ECONNREFUSED')) return this.reconnect();
 		return this.emit('error', error);
 	}
 
-	close(code, reason) {
+	_close(code, reason) {
 		this.ready = false;
 		if (code !== 1000) return this.reconnect();
 		this.ws = null;
 		return this.emit('disconnect', reason);
 	}
 
-	reconnect() {
+	_reconnect() {
 		setTimeout(() => {
 			this.emit('reconnecting');
 			this.connect();
