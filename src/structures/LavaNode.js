@@ -30,7 +30,7 @@ class LavaNode extends EventEmitter {
 		this.gateway = `ws://${options.gateway}`;
 
 		/**
-		 * The user
+		 * The user ID of this node
 		 * @type {string}
 		 */
 		this.user = options.user;
