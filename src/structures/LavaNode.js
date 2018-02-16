@@ -8,7 +8,17 @@ class LavaNode extends EventEmitter {
 		this.user = options.user;
 		this.shards = options.shards || 1;
 		this.password = options.password;
+		this.reconnectInterval = options.reconnectInterval || 5000;
+		this.ws = null;
+		this.stats = {
+			players: 0,
+			playingPlayers: 0
+		};
 
+		this.connect();
+	}
+
+	connect() {
 		this.ws = new WebSocket(this.gateway, {
 			headers: {
 				Authorization: this.password,
@@ -19,8 +29,8 @@ class LavaNode extends EventEmitter {
 
 		this.ws.on('open', this.ready.bind(this));
 		this.ws.on('message', this.message.bind(this));
-		this.ws.on('close', () => console.log('disconnected'));
-		this.ws.on('error', error => this.emit('error', error));
+		this.ws.on('close', this.close.bind(this));
+		this.ws.on('error', this.error.bind(this));
 	}
 
 	ready() {
@@ -34,8 +44,29 @@ class LavaNode extends EventEmitter {
 		} catch (error) {
 			return this.emit('error', error);
 		}
+		if (!data) return undefined;
+		if (data.op === 'stats') this.stats = data;
 
 		return this.emit('message', data);
+	}
+
+	error(error) {
+		if (error.message.includes('ECONNREFUSED')) return this.reconnect();
+		return this.emit('error', error);
+	}
+
+	close(code, reason) {
+		this.ready = false;
+		if (code !== 1000) return this.reconnect();
+		this.ws = null;
+		return this.emit('disconnect', reason);
+	}
+
+	reconnect() {
+		setTimeout(() => {
+			this.emit('reconnecting');
+			this.connect();
+		}, this.reconnectInterval);
 	}
 
 	send(data) {

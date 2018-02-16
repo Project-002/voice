@@ -9,6 +9,7 @@ class LavaPlayer extends EventEmitter {
 		this.ready = false;
 		this.playing = false;
 		this.paused = false;
+		this.state = {};
 		this.track = null;
 		this.timestamp = Date.now();
 	}

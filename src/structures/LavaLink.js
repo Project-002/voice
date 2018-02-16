@@ -11,6 +11,18 @@ class LavaLink extends EventEmitter {
 		this.nodes = new Map();
 
 		for (const node of this.nodes) this.createNode(Object.assign({}, node));
+
+		if (!this.client.connections && this.client.ws) {
+			this.client.on('raw', packet => {
+				if (packet.t === 'VOICE_SERVER_UPDATE') this.voiceServerUpdate(packet.d);
+			});
+		}
+
+		if (this.client.connections && !this.client.ws) {
+			this.client.publisher.on('VOICE_SERVER_UPDATE', packet => {
+				this.voiceServerUpdate(packet);
+			});
+		}
 	}
 
 	createNode(options) {
@@ -21,7 +33,7 @@ class LavaLink extends EventEmitter {
 			password: options.password
 		});
 
-		node.on('error', console.error);
+		node.on('error', error => this.client.emit('error', error));
 		node.on('message', this.message.bind(this, node));
 
 		this.nodes.set(options.host, node);
@@ -39,6 +51,12 @@ class LavaLink extends EventEmitter {
 		if (!message.op) return;
 
 		switch (message.op) {
+			case 'playerUpdate': {
+				const player = this.players.get(message.guildId);
+				if (!player) return;
+				player.state = message.state;
+				return;
+			}
 			case 'event': {
 				const player = this.players.get(message.guildId);
 				if (!player) return;
@@ -85,11 +103,34 @@ class LavaLink extends EventEmitter {
 		if (!this.client.connections && this.client.ws) {
 			this.client.ws.send(data);
 		}
-		if (this.client.connections) {
+		if (this.client.connections && !this.client.ws) {
 			this.client.connections.get(data.shard).send(data.op, data.d);
 		}
 		player.removeAllListeners();
 		this.players.delete(data.d.guild_id);
+	}
+
+	voiceServerUpdate(data) {
+		if (!this.client.connections && this.client.ws) {
+			const guild = this.client.guilds.get(data.guild_id);
+			if (!guild) return;
+			const player = this.players.get(data.guild_id);
+			if (!player) return;
+			player.connect({
+				session: guild.me.voiceSessionID,
+				event: data
+			});
+		}
+		if (this.client.connections && !this.client.ws) {
+			const session = this.client.voiceSessions.get(data.guild_id);
+			if (!session) return;
+			const player = this.players.get(data.guild_id);
+			if (!player) return;
+			player.connect({
+				session,
+				event: data
+			});
+		}
 	}
 
 	spawnPlayer(data) {
