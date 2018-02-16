@@ -60,7 +60,15 @@ class LavaLink extends EventEmitter {
 	join(data) {
 		const player = this.players.get(data.d.guild_id);
 		if (player) return player;
-		if (this.client.connections) {
+		if (!this.client.connections && this.client.ws) {
+			this.client.ws.send(data);
+			this.spawnPlayer({
+				host: data.host,
+				guild: data.d.guild_id,
+				channel: data.d.channel_id
+			});
+		}
+		if (this.client.connections && !this.client.ws) {
 			this.client.connections.get(data.shard).send(data.op, data.d);
 			this.spawnPlayer({
 				host: data.host,
@@ -74,6 +82,9 @@ class LavaLink extends EventEmitter {
 	leave(data) {
 		const player = this.players.get(data.d.guild_id);
 		if (!player) return;
+		if (!this.client.connections && this.client.ws) {
+			this.client.ws.send(data);
+		}
 		if (this.client.connections) {
 			this.client.connections.get(data.shard).send(data.op, data.d);
 		}
