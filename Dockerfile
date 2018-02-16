@@ -1,4 +1,4 @@
-FROM anapsix/alpine-java:9
+FROM openjdk:9-jre-slim
 
 LABEL name "Lavalink"
 LABEL version "2.0.0"
