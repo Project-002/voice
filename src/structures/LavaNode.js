@@ -8,7 +8,7 @@ class LavaNode extends EventEmitter {
 		this.user = options.user;
 		this.shards = options.shards || 1;
 		this.password = options.password;
-		this.reconnectInterval = options.reconnectInterval || 5000;
+		this.reconnectInterval = options.reconnectInterval || 10000;
 		this.ws = null;
 		this.stats = {
 			players: 0,
@@ -51,6 +51,7 @@ class LavaNode extends EventEmitter {
 	}
 
 	_error(error) {
+		if (error.message.includes('socket hang up')) return undefined;
 		if (error.message.includes('ECONNREFUSED')) return this._reconnect();
 		return this.emit('error', error);
 	}
