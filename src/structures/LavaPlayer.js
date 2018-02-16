@@ -1,13 +1,13 @@
 const { EventEmitter } = require('events');
 
 /**
- * A LavaPlayer instance
+ * A LavaPlayer instance.
  * @extends {EventEmitter}
  */
 class LavaPlayer extends EventEmitter {
 	/**
 	 * Options passed to LavaPlayer when creating a new instance
-	 * @typedef {object} LavaPlayerOptions
+	 * @typedef {Object} LavaPlayerOptions
 	 * @prop {LavaNode} [node] The node used for this player
 	 * @prop {string} [guild] The guild ID of this player
 	 * @prop {string} [channel] The channel ID of this player
@@ -62,7 +62,7 @@ class LavaPlayer extends EventEmitter {
 		/**
 		 * The current state of this player
 		 * TODO: Needs more docs
-		 * @type {object}
+		 * @type {Object}
 		 * @default {}
 		 */
 		this.state = {};
@@ -84,7 +84,7 @@ class LavaPlayer extends EventEmitter {
 
 	/**
 	 * Options passed when connecting to a voice channel using a {@link LavaPlayer} instance
-	 * @typedef {object} LavaPlayerConnectData
+	 * @typedef {Object} LavaPlayerConnectData
 	 * @prop {string} [session] The session ID
 	 * @prop {string} [event] The event
 	 */
@@ -106,7 +106,7 @@ class LavaPlayer extends EventEmitter {
 	/**
 	 * Plays a track in the channel.
 	 * @param {string} track The track that should be played
-	 * @param {object} options The options for playing the track
+	 * @param {Object} options The options for playing the track
 	 * @memberof LavaPlayer
 	 */
 	play(track, options) {
@@ -178,7 +178,7 @@ class LavaPlayer extends EventEmitter {
 
 	/**
 	 * Function ran when playback ends.
-	 * @param {object} message The raw message object
+	 * @param {Object} message The raw message object
 	 * @memberof LavaPlayer
 	 */
 	end(message) {
@@ -197,7 +197,7 @@ class LavaPlayer extends EventEmitter {
 
 	/**
 	 * Function that is ran when an error is occured.
-	 * @param {object} message The raw message
+	 * @param {Object} message The raw message
 	 * @memberof LavaPlayer
 	 */
 	exception(message) {
@@ -211,7 +211,7 @@ class LavaPlayer extends EventEmitter {
 
 	/**
 	 * Function that stops the player when it gets stuck.
-	 * @param {object} message The raw message
+	 * @param {Object} message The raw message
 	 * @memberof LavaPlayer
 	 */
 	stuck(message) {

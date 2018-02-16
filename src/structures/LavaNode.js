@@ -2,13 +2,13 @@ const { EventEmitter } = require('events');
 const WebSocket = require('ws');
 
 /**
- * A LavaNode instance
+ * A LavaNode instance.
  * @extends {EventEmitter}
  */
 class LavaNode extends EventEmitter {
 	/**
 	 * Options passed to LavaNode when creating a new instance
-	 * @typedef {object} LavaNodeOptions
+	 * @typedef {Object} LavaNodeOptions
 	 * @prop {string} [gateway] The gateway URL
 	 * @prop {string} [user] The user
 	 * @prop {number} [shards=1] The shard count
@@ -63,7 +63,7 @@ class LavaNode extends EventEmitter {
 
 		/**
 		 * The statistics of this node
-		 * @typedef {object} LavaNodeStatistics
+		 * @typedef {Object} LavaNodeStatistics
 		 * @prop {number} [players=0] The amount of connected players
 		 * @prop {number} [playingPlayers=0] The amount of currently playing players
 		 */
@@ -122,7 +122,7 @@ class LavaNode extends EventEmitter {
 	/**
 	 * Parses a received message.
 	 * @private
-	 * @param {object} message The WebSocket message
+	 * @param {Object} message The WebSocket message
 	 * @returns {void}
 	 * @memberof LavaNode
 	 */
@@ -201,7 +201,7 @@ class LavaNode extends EventEmitter {
 
 	/**
 	 * Sends a packet to the WebSocket connection.
-	 * @param {object} data The data to send
+	 * @param {Object} data The data to send
 	 * @returns {void}
 	 * @memberof LavaNode
 	 */

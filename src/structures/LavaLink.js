@@ -3,7 +3,7 @@ const LavaNode = require('./LavaNode');
 const LavaPlayer = require('./LavaPlayer');
 
 /**
- * A LavaLink instance
+ * A LavaLink instance.
  * @extends {EventEmitter}
  */
 class LavaLink extends EventEmitter {
@@ -51,7 +51,7 @@ class LavaLink extends EventEmitter {
 
 	/**
 	 * Options passed when creating a new LavaNode
-	 * @typedef {object} LavaLinkNodeOptions
+	 * @typedef {Object} LavaLinkNodeOptions
 	 * @prop {string} [gateway] The gateway URL
 	 * @prop {number} [shards] The total amount of shards
 	 * @prop {string} [user] The user ID used for logging in
@@ -95,7 +95,7 @@ class LavaLink extends EventEmitter {
 	/**
 	 * Parses a message from a node.
 	 * @param {LavaNode} node The node that received the message
-	 * @param {object} message The raw message
+	 * @param {Object} message The raw message
 	 * @returns {void}
 	 * @memberof LavaLink
 	 */
@@ -192,7 +192,7 @@ class LavaLink extends EventEmitter {
 
 	/**
 	 * Options used when spawning a new LavaPlayer
-	 * @typedef {object} LavaLinkPlayerOptions
+	 * @typedef {Object} LavaLinkPlayerOptions
 	 * @prop {string} [host] The host name
 	 * @prop {string} [guild] The guild ID
 	 * @prop {string} [channel] The channel ID
