@@ -15,10 +15,10 @@ class LavaNode extends EventEmitter {
 			playingPlayers: 0
 		};
 
-		this.connect();
+		this._connect();
 	}
 
-	connect() {
+	_connect() {
 		this.ws = new WebSocket(this.gateway, {
 			headers: {
 				Authorization: this.password,
@@ -51,13 +51,13 @@ class LavaNode extends EventEmitter {
 	}
 
 	_error(error) {
-		if (error.message.includes('ECONNREFUSED')) return this.reconnect();
+		if (error.message.includes('ECONNREFUSED')) return this._reconnect();
 		return this.emit('error', error);
 	}
 
 	_close(code, reason) {
 		this.ready = false;
-		if (code !== 1000) return this.reconnect();
+		if (code !== 1000) return this._reconnect();
 		this.ws = null;
 		return this.emit('disconnect', reason);
 	}
@@ -65,7 +65,7 @@ class LavaNode extends EventEmitter {
 	_reconnect() {
 		setTimeout(() => {
 			this.emit('reconnecting');
-			this.connect();
+			this._connect();
 		}, this.reconnectInterval);
 	}
 
