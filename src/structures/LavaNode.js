@@ -1,5 +1,6 @@
 const { EventEmitter } = require('events');
 const WebSocket = require('ws');
+
 /**
  * A LavaNode instance
  * @extends {EventEmitter}
