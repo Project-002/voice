@@ -202,19 +202,20 @@ class LavaLink extends EventEmitter {
 	/**
 	 * Spawns a new player.
 	 * @param {LavaLinkPlayerOptions} data The data used in spawning the new player
+	 * @returns {LavaPlayer|undefined}
 	 * @memberof LavaLink
 	 */
 	spawnPlayer(data) {
 		let player = this.players.get(data.guild);
-		if (!player) {
-			player = new LavaPlayer({
-				node: this.nodes.get(data.host),
-				guild: data.guild,
-				channel: data.channel
-			});
+		if (player) return player;
+		player = new LavaPlayer({
+			node: this.nodes.get(data.host),
+			guild: data.guild,
+			channel: data.channel
+		});
 
-			this.players.set(data.guild, player);
-		}
+		this.players.set(data.guild, player);
+		return undefined;
 	}
 }
 
