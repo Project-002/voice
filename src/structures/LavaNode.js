@@ -80,7 +80,7 @@ class LavaNode extends EventEmitter {
 	}
 
 	/**
-	 * Connects to the WebSocket
+	 * Connects to the WebSocket.
 	 * @private
 	 * @memberof LavaNode
 	 */
@@ -100,7 +100,7 @@ class LavaNode extends EventEmitter {
 	}
 
 	/**
-	 * Function ran when the WebSocket connection is ready
+	 * Function ran when the WebSocket connection is ready.
 	 * @private
 	 * @memberof LavaNode
 	 */
@@ -119,7 +119,7 @@ class LavaNode extends EventEmitter {
 	}
 
 	/**
-	 * Parses a received message
+	 * Parses a received message.
 	 * @private
 	 * @param {object} message The WebSocket message
 	 * @returns {void}
@@ -148,7 +148,7 @@ class LavaNode extends EventEmitter {
 	}
 
 	/**
-	 * Handles any errors that occur
+	 * Handles any errors that occur.
 	 * @private
 	 * @param {Error} error The received error
 	 * @returns {void}
@@ -161,7 +161,7 @@ class LavaNode extends EventEmitter {
 	}
 
 	/**
-	 * Function ran when the WebSocket connection closes
+	 * Function ran when the WebSocket connection closes.
 	 * @private
 	 * @param {number} code The code used for closing the connection
 	 * @param {any} reason The reason for closing the connection
@@ -183,7 +183,7 @@ class LavaNode extends EventEmitter {
 	}
 
 	/**
-	 * Handles the reconnecting to the WebSocket
+	 * Handles the reconnecting to the WebSocket.
 	 * @private
 	 * @memberof LavaNode
 	 */
@@ -199,7 +199,7 @@ class LavaNode extends EventEmitter {
 	}
 
 	/**
-	 * Sends a packet to the WebSocket connection
+	 * Sends a packet to the WebSocket connection.
 	 * @param {object} data The data to send
 	 * @returns {void}
 	 * @memberof LavaNode
