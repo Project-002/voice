@@ -19,7 +19,7 @@ class LavaLink extends EventEmitter {
 		}
 
 		if (this.client.connections && !this.client.ws) {
-			this.client.publisher.on('VOICE_SERVER_UPDATE', packet => {
+			this.client.on('VOICE_SERVER_UPDATE', packet => {
 				this.voiceServerUpdate(packet);
 			});
 		}
