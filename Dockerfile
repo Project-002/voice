@@ -10,4 +10,4 @@ COPY Lavalink.jar application.yml ./
 
 EXPOSE 2333 8000
 
-CMD ["java", "-jar", "Lavalink.jar"]
+CMD ["java", "-jar", "-Xmx2G", "Lavalink.jar"]
