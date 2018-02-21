@@ -49,6 +49,11 @@ class LavaNode extends EventEmitter {
 		this.password = options.password;
 
 		/**
+		 * The reconnect interval
+		 */
+		this.reconnect = null;
+
+		/**
 		 * The reconnect interval, in milliseconds
 		 * @type {number}
 		 * @default 10000
@@ -156,8 +161,6 @@ class LavaNode extends EventEmitter {
 	 * @memberof LavaNode
 	 */
 	_error(error) {
-		if (error.message.includes('socket hang up')) return undefined;
-		if (error.message.includes('ECONNREFUSED')) return this._reconnect();
 		return this.emit('error', error);
 	}
 
@@ -189,7 +192,7 @@ class LavaNode extends EventEmitter {
 	 * @memberof LavaNode
 	 */
 	_reconnect() {
-		setTimeout(() => {
+		this.reconnect = setTimeout(() => {
 			/**
 			 * Emmited when the node is attempting a reconnect
 			 * @event LavaNode#reconnecting
