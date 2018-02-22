@@ -4,10 +4,28 @@ LABEL name "Lavalink"
 LABEL version "2.0.0"
 LABEL maintainer "iCrawl <icrawltogo@gmail.com>"
 
-WORKDIR /usr/src/Lavalink
+WORKDIR /opt/Lavalink
 
-COPY Lavalink.jar application.yml ./
+RUN apt-get update \
+&& apt-get install -y curl
 
-EXPOSE 2333 8000
+RUN curl -o Lavalink.jar https://ci.fredboat.com/repository/download/Lavalink_Build/2975:id/Lavalink.jar?guest=1
+
+ENV SERVER_PORT=2333 \
+	SERVER_ADDRESS=0.0.0.0 \
+	LAVALINK_SERVER_PASSWORD=12345 \
+	LAVALINK_SERVER_WS_PORT=8080 \
+	LAVALINK_SERVER_WS_HOST=0.0.0.0 \
+	LAVALINK_SERVER_SOURCES_YOUTUBE=true \
+	LAVALINK_SERVER_SOURCES_BANDCAMP=true \
+	LAVALINK_SERVER_SOURCES_SOUNDCLOUD=true \
+	LAVALINK_SERVER_SOURCES_TWITCH=true \
+	LAVALINK_SERVER_SOURCES_VIMEO=true \
+	LAVALINK_SERVER_SOURCES_MIXER=true \
+	LAVALINK_SERVER_SOURCES_HTTP=true \
+	LAVALINK_SERVER_SOURCES_LOCAL=false \
+	LAVALINK_SERVER_SENTRY_DNS= \
+	LAVALINK_SERVER_BUFFER_DURATION_MS=400 \
+	LAVALINK_SERVER_YOUTUBE_PLAYLIST_LOAD_LIMIT=600
 
 CMD ["java", "-jar", "-Xmx2G", "Lavalink.jar"]
