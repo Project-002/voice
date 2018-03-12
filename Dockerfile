@@ -9,7 +9,7 @@ WORKDIR /opt/Lavalink
 RUN apt-get update \
 && apt-get install -y curl
 
-RUN curl -o Lavalink.jar https://ci.fredboat.com/repository/download/Lavalink_Build/2975:id/Lavalink.jar?guest=1
+RUN curl -o Lavalink.jar https://ci.fredboat.com/repository/download/Lavalink_Build/3203:id/Lavalink.jar?guest=1
 
 ENV SERVER_PORT=2333 \
 	SERVER_ADDRESS=0.0.0.0 \
