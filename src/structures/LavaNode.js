@@ -93,7 +93,7 @@ class LavaNode extends EventEmitter {
 	_connect() {
 		this.ws = new WebSocket(this.gateway, {
 			headers: {
-				Authorization: this.password,
+				'Authorization': this.password,
 				'Num-Shards': this.shards,
 				'User-Id': this.user
 			}
@@ -132,8 +132,9 @@ class LavaNode extends EventEmitter {
 	 * @memberof LavaNode
 	 */
 	_message(message) {
+		let data;
 		try {
-			var data = JSON.parse(message);
+			data = JSON.parse(message);
 		} catch (error) {
 			/**
 			 * Emmited when an error occured
@@ -210,8 +211,9 @@ class LavaNode extends EventEmitter {
 	 * @memberof LavaNode
 	 */
 	_send(data) {
+		let payload;
 		try {
-			var payload = JSON.stringify(data);
+			payload = JSON.stringify(data);
 		} catch (error) {
 			return this.emit('error', error);
 		}

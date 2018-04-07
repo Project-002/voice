@@ -103,32 +103,32 @@ class LavaLink extends EventEmitter {
 		if (!message.op) return;
 
 		switch (message.op) {
-			case 'playerUpdate': {
-				const player = this.players.get(message.guildId);
-				if (!player) return;
-				player.state = message.state;
-				return;
-			}
-			case 'event': {
-				const player = this.players.get(message.guildId);
-				if (!player) return;
+		case 'playerUpdate': {
+			const player = this.players.get(message.guildId);
+			if (!player) return;
+			player.state = message.state;
+			return;
+		}
+		case 'event': {
+			const player = this.players.get(message.guildId);
+			if (!player) return;
 
-				switch (message.type) {
-					case 'TrackEndEvent':
-						return player.end(message);
-					case 'TrackExceptionEvent':
-						return player.exception(message);
-					case 'TrackStuckEvent':
-						return player.stuck(message);
-					default:
-						/**
-						 * Emmited when a player receives an unknown event type
-						 * @event LavaPlayer#warn
-						 * @prop {string} info The information string
-						 */
-						return player.emit('warn', `Unexpected event type: ${message.type}`);
-				}
+			switch (message.type) {
+			case 'TrackEndEvent':
+				return player.end(message);
+			case 'TrackExceptionEvent':
+				return player.exception(message);
+			case 'TrackStuckEvent':
+				return player.stuck(message);
+			default:
+				/**
+				 * Emmited when a player receives an unknown event type
+				 * @event LavaPlayer#warn
+				 * @prop {string} info The information string
+				 */
+				return player.emit('warn', `Unexpected event type: ${message.type}`);
 			}
+		}
 		}
 	}
 
