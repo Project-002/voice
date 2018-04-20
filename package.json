@@ -16,13 +16,6 @@
 		"eslint-config-aqua": "^4.0.0"
 	},
 	"eslintConfig": {
-		"extends": "aqua/src/node",
-		"rules": {
-			"no-process-env": "off",
-			"id-length": "off",
-			"no-empty": "off",
-			"no-empty-function": "off",
-			"new-cap": "off"
-		}
+		"extends": "aqua/src/node"
 	}
 }
